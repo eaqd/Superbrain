@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mnemonicon
 
-## Getting Started
+A mobile-first memory atelier. Learn to remember any number by turning digits into images — then drill yourself from Apprentice to Mnemonist through ten levels.
 
-First, run the development server:
+Built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. All state lives in `localStorage`; no backend, no database, no accounts.
+
+## Deploy live
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Feaqd%2Fsuperbrain&project-name=mnemonicon&repository-name=mnemonicon)
+
+Click the button, sign in to Vercel, accept the defaults (Next.js is auto-detected, no configuration needed). You'll get a `mnemonicon-*.vercel.app` URL within about a minute.
+
+Make sure Vercel is set to deploy the `claude/mnemonicon-app-DWDct` branch (or merge it to `main` first).
+
+## On your iPhone
+
+1. Open the deployed URL in Safari.
+2. Share → **Add to Home Screen**.
+3. Launch from the home screen — the PWA manifest makes it open fullscreen, no browser chrome.
+
+## The three modes
+
+1. **Learn the Code** — swipe through digits 0–9 and meet their images: `0 ⚽ Football`, `1 🕯️ Candle`, `2 🦢 Swan`, `3 ⛓️ Chains`, `4 ⛵ Sailboat`, `5 🪝 Hook`, `6 🐘 Elephant`, `7 🚩 Flag`, `8 ⛄ Snowman`, `9 🎈 Balloon`.
+2. **Speed Drill** — a digit flashes, you tap the matching image from four choices. Tracks streak, accuracy, and best reaction time.
+3. **Recall Challenge** — a sequence of digits flashes one at a time, then you type them back on a custom numeric keypad (no iOS keyboard). Three correct in a row unlocks the next rank.
+
+## Progression
+
+| Lv | Digits | ms/digit | Rank |
+| -: | -----: | -------: | ---- |
+| 1  | 2      | 3000     | Apprentice |
+| 2  | 3      | 3000     | Student |
+| 3  | 4      | 2500     | Adept |
+| 4  | 5      | 2500     | Scribe |
+| 5  | 6      | 2000     | Scholar |
+| 6  | 7      | 2000     | Mentalist |
+| 7  | 8      | 1500     | Sage |
+| 8  | 10     | 1500     | Master |
+| 9  | 12     | 1200     | Grandmaster |
+| 10 | 15     | 1000     | Mnemonist |
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev -- -H 0.0.0.0
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://<your-lan-ip>:3000` on your phone (same Wi-Fi) to test on a real device without redeploying.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project layout
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+  layout.tsx          fonts, manifest, Apple web-app meta
+  page.tsx            home (three mode tiles + level badge)
+  learn/page.tsx      swipeable digit cards
+  speed/page.tsx      tap-the-image drill
+  recall/page.tsx     flash + keypad recall
+components/           Keypad, Flasher, ChoiceTile, ModeTile, ...
+lib/
+  digits.ts           digit ↔ image ↔ story table
+  levels.ts           10-level progression table
+  storage.ts          SSR-safe localStorage helper (useGameState)
+  drill.ts            question picker for speed mode
+  progression.ts      streak → unlock logic + sequence generator
+public/               PWA manifest, SVG icon, generated PNGs
+```
