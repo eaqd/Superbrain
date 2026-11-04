@@ -39,6 +39,14 @@ Make sure Vercel is set to deploy the `claude/mnemonicon-app-DWDct` branch (or m
 | 9  | 12     | 1200     | Grandmaster |
 | 10 | 15     | 1000     | Mnemonist |
 
+## Faith Theory lab
+
+A separate experiment lives at **`/faith`**: an Axelrod-style tournament (the one Tit for Tat won) where every strategy is a kind of faith drawn from Scripture, from steadfast and discerning through undulating and lukewarm to none at all. Each one is tested *under the sun* (the game alone) and *under heaven* (four biblical promises written into the rules). There are eight tests in all, including generations, "ten righteous" and the storm.
+
+- Write-up and findings: [`docs/FAITH_THEORY.md`](docs/FAITH_THEORY.md)
+- All result tables: [`docs/faith-theory-results.md`](docs/faith-theory-results.md)
+- `npm run faith` reruns every test; `npm run test:faith` checks the engine.
+
 ## Local development
 
 ```bash
@@ -65,4 +73,7 @@ lib/
   drill.ts            question picker for speed mode
   progression.ts      streak → unlock logic + sequence generator
 public/               PWA manifest, SVG icon, generated PNGs
+public/faith/         Faith Theory lab: engine.js, index.html, results.js
+scripts/              faith-theory.mjs (runs the tests), faith-theory.test.mjs
+docs/                 FAITH_THEORY.md and generated result tables
 ```
