@@ -23,6 +23,9 @@
  *                                "if we faint not"). The betrayer pays (T-R)*s,
  *                                unless by then they have been reconciled
  *                                (keeping covenant again — Matt 5:24).
+ *                                R here includes the unity bonus, so losses
+ *                                and gains are measured against the blessing
+ *                                both would have had.
  *       restoration Ps 23:3      divinely anchored faith is pulled back
  *                                toward its anchor each step (Luke 22:32)
  *       renewal     Ezek 36:26   mercy received after doing wrong softens the

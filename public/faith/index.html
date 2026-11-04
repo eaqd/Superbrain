@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faith Theory</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="An Axelrod-style tournament where every strategy is a kind of faith from Scripture, tested under the sun and under heaven.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one manuscript column (≈46rem) read top to bottom like a codex; rubricated (red) test numbers and initials, charts set flush to the column. */
+:root {
+  --bg: #f4ecd8;
+  --surface: #fbf7ec;
+  --surface-2: #efe5cc;
+  --ink: #1f1a17;
+  --ink-2: #4f443b;
+  --muted: #776a5e;
+  --rule: #d9cba3;
+  --grid: #e8dec6;
+  --axis: #c4b38c;
+  --rubric: #8c2a2a;
+  --gold: #8a6a1e;
+  --heaven: #2f62b0;
+  --sun: #b26b00;
+  --emph: #8c2a2a;
+  --quiet-line: #cbbd9f;
+  --seq-lo: #eef0f2;
+  --seq-hi: #1d4382;
+  --kept: #2f7a47;
+  --broke: #b3372f;
+  --tip-bg: #1f1a17;
+  --tip-fg: #f4ecd8;
+  --focus: #2f62b0;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.625rem;
+  --step-3: 2.25rem;
+  --step-4: clamp(3rem, 11vw, 5.5rem);
+  color-scheme: light;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17130f;
+    --surface: #211c17;
+    --surface-2: #2a241d;
+    --ink: #efe6d2;
+    --ink-2: #cdbfa9;
+    --muted: #9a8e7f;
+    --rule: #3d352b;
+    --grid: #2e2720;
+    --axis: #51473a;
+    --rubric: #e38d7f;
+    --gold: #d9b96b;
+    --heaven: #4f86d8;
+    --sun: #b97c20;
+    --emph: #e38d7f;
+    --quiet-line: #4a4238;
+    --seq-lo: #26303d;
+    --seq-hi: #a4c4f4;
+    --kept: #5fb47a;
+    --broke: #e2705f;
+    --tip-bg: #efe6d2;
+    --tip-fg: #17130f;
+    --focus: #8fb6f2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17130f;
+  --surface: #211c17;
+  --surface-2: #2a241d;
+  --ink: #efe6d2;
+  --ink-2: #cdbfa9;
+  --muted: #9a8e7f;
+  --rule: #3d352b;
+  --grid: #2e2720;
+  --axis: #51473a;
+  --rubric: #e38d7f;
+  --gold: #d9b96b;
+  --heaven: #4f86d8;
+  --sun: #b97c20;
+  --emph: #e38d7f;
+  --quiet-line: #4a4238;
+  --seq-lo: #26303d;
+  --seq-hi: #a4c4f4;
+  --kept: #5fb47a;
+  --broke: #e2705f;
+  --tip-bg: #efe6d2;
+  --tip-fg: #17130f;
+  --focus: #8fb6f2;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--font-body);
+  font-feature-settings: "cv11", "ss01";
+}
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+.wrap {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--rubric); text-underline-offset: 2px; }
+.ref { font-variant: small-caps; letter-spacing: 0.04em; color: var(--muted); font-size: var(--step--1); white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------- hero */
+.hero { padding-block: 3.5rem 2rem; display: grid; gap: 1.25rem; }
+.eyebrow { font-size: var(--step--1); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 800;
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--rubric); }
+.lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink-2); max-width: 38rem; }
+.lede .initial {
+  float: left;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 3.6em;
+  line-height: 0.8;
+  margin: 0.08em 0.1em 0 0;
+  color: var(--rubric);
+}
+.rule { height: 1px; background: var(--rule); border: 0; margin: 0; }
+
+.findings { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.findings li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 1rem;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+.findings li p { min-width: 0; }
+.findings strong { font-weight: 600; color: var(--ink); }
+.findings .ref { text-align: right; padding-top: 0.15rem; }
+@media (max-width: 34rem) {
+  .findings li { grid-template-columns: minmax(0, 1fr); }
+  .findings .ref { text-align: left; padding-top: 0; }
+}
+
+/* ---------------------------------------------------------- sections */
+section.chapter { padding-block: 2.75rem 0.5rem; display: grid; gap: 1.1rem; }
+.chapter-head { display: grid; gap: 0.4rem; }
+.marker { font-size: var(--step--1); letter-spacing: 0.16em; text-transform: uppercase; color: var(--rubric); font-weight: 600; }
+.chapter h2 { font-size: var(--step-3); font-variation-settings: "opsz" 96; }
+.chapter h3 { font-size: var(--step-1); font-variation-settings: "opsz" 36; }
+.prose { display: grid; gap: 0.8rem; color: var(--ink-2); max-width: 40rem; }
+.prose strong { color: var(--ink); font-weight: 600; }
+blockquote.verse {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rubric);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-1);
+  line-height: 1.4;
+  color: var(--ink);
+  display: grid;
+  gap: 0.2rem;
+}
+blockquote.verse .ref { font-style: normal; font-family: var(--font-body); }
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+.callout strong { color: var(--ink); }
+
+/* payoff table */
+.payoff { border-collapse: collapse; width: 100%; max-width: 30rem; font-size: 0.95rem; }
+.payoff th, .payoff td { border: 1px solid var(--rule); padding: 0.6rem 0.7rem; text-align: left; vertical-align: top; }
+.payoff thead th { font-weight: 500; color: var(--muted); font-size: var(--step--1); background: transparent; }
+.payoff tbody th { font-weight: 500; color: var(--muted); font-size: var(--step--1); width: 34%; }
+.payoff td { background: var(--surface); }
+.payoff .pts { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; line-height: 1; display: block; }
+.payoff .lbl { color: var(--ink-2); font-size: var(--step--1); }
+
+.promises { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.75rem; }
+.promise { border-top: 2px solid var(--heaven); padding-top: 0.6rem; display: grid; gap: 0.3rem; align-content: start; }
+.promise h3 { font-size: 1.1rem; }
+.promise p { color: var(--ink-2); font-size: 0.93rem; }
+
+/* cast */
+.cast { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 0.75rem; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.9rem 1rem 1rem;
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+  min-width: 0;
+}
+.card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.card h3 { font-size: 1.3rem; }
+.card .who { color: var(--muted); font-size: var(--step--1); }
+.card q { font-family: var(--font-display); font-style: italic; color: var(--ink); quotes: "“" "”"; font-size: 1.02rem; line-height: 1.4; }
+.card .blurb { color: var(--ink-2); font-size: 0.92rem; }
+.tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.tag { font-size: 0.72rem; letter-spacing: 0.04em; border: 1px solid var(--rule); border-radius: 999px; padding: 0.1rem 0.55rem; color: var(--ink-2); white-space: nowrap; }
+.tag.src-divine { border-color: var(--heaven); color: var(--ink); }
+.tag.src-none { border-style: dashed; }
+
+/* controls */
+.seg { display: inline-flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button {
+  font: 500 0.88rem/1.2 var(--font-body);
+  color: var(--ink-2);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  min-height: 2.5rem;
+}
+.seg button:last-child { border-right: 0; }
+@media (max-width: 30rem) { .seg button { padding: 0.5rem 0.6rem; font-size: 0.82rem; } }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:hover:not([aria-pressed="true"]) { background: var(--surface-2); }
+.controls { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; }
+
+/* legend */
+.legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: var(--step--1); color: var(--ink-2); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.key-line { display: inline-block; width: 16px; height: 2px; border-radius: 1px; }
+.key-box { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+
+/* ranking chart */
+.rank { list-style: none; margin: 0; padding: 0; display: grid; }
+.rank-row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 9.5rem) minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: center;
+  padding-block: 0.42rem;
+  border-bottom: 1px solid var(--grid);
+  cursor: default;
+}
+.rank-row:hover, .rank-row:focus-visible { background: var(--surface); }
+.rank-n { font-variant-numeric: tabular-nums; color: var(--muted); font-size: var(--step--1); text-align: right; }
+.rank-name { display: grid; min-width: 0; }
+.rank-name .nm { font-weight: 500; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rank-name .sub { font-size: 0.75rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rank-bar { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
+.rank-bar .bar { height: 14px; border-radius: 0 4px 4px 0; width: calc((100% - 3.2rem) * var(--w)); flex: 0 0 auto; }
+.rank-bar .val { font-variant-numeric: tabular-nums; font-size: 0.88rem; color: var(--ink); font-weight: 500; }
+@media (max-width: 30rem) {
+  .rank-row { grid-template-columns: 1.3rem minmax(0, 7.2rem) minmax(0, 1fr); gap: 0.45rem; }
+}
+
+/* tables / heatmaps */
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+table.grid { border-collapse: separate; border-spacing: 2px; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+table.grid th { font-weight: 500; color: var(--ink-2); text-align: right; padding: 0.15rem 0.45rem 0.15rem 0; white-space: nowrap; }
+table.grid thead th { text-align: left; vertical-align: bottom; padding: 0 0 0.3rem; }
+table.grid thead th.rot span { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; max-height: 8.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.grid td { text-align: center; min-width: 2.4rem; height: 2rem; padding: 0 0.2rem; border-radius: 3px; }
+table.grid td.self { outline: 1.5px solid var(--ink); outline-offset: -1.5px; }
+table.wide td { min-width: 3.4rem; }
+.scale { display: flex; align-items: center; gap: 0.5rem; font-size: var(--step--1); color: var(--muted); }
+.scale .ramp { width: 120px; height: 8px; border-radius: 4px; }
+
+/* line charts */
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--font-body); }
+.multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); gap: 1rem 1.1rem; }
+.panel { min-width: 0; display: grid; gap: 0.2rem; }
+.panel-head { display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+.panel-head b { font-weight: 600; font-size: 0.9rem; }
+.panel-head span { font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.25rem; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chip {
+  font: 500 0.8rem/1 var(--font-body);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  min-height: 2rem;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+label.chip { display: inline-flex; align-items: center; gap: 0.35rem; }
+label.chip input { accent-color: var(--ink); margin: 0; }
+
+/* duel */
+.duel-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 0.75rem; }
+.field { display: grid; gap: 0.3rem; font-size: var(--step--1); color: var(--muted); }
+select, input[type="range"] { font: 500 0.95rem var(--font-body); color: var(--ink); }
+select {
+  appearance: none;
+  background: var(--surface) linear-gradient(45deg, transparent 50%, var(--muted) 50%) no-repeat right 0.9rem center / 6px 6px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.55rem 2rem 0.55rem 0.7rem;
+  min-height: 2.6rem;
+  width: 100%;
+}
+.strip-wrap { display: grid; gap: 0.25rem; }
+.strip-head { display: flex; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; font-size: 0.85rem; }
+.strip-head b { font-weight: 600; }
+.strip-head span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.strip { display: grid; grid-template-columns: repeat(100, minmax(0, 1fr)); gap: 1px; height: 18px; }
+.strip i { display: block; border-radius: 1px; }
+.btn {
+  font: 600 0.92rem/1 var(--font-body);
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  border-radius: 6px;
+  padding: 0.75rem 1.1rem;
+  cursor: pointer;
+  min-height: 2.75rem;
+}
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+.btn[disabled] { opacity: 0.55; cursor: progress; }
+
+/* lab */
+.lab { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem; display: grid; gap: 1rem; }
+.lab-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 0.9rem 1.2rem; }
+.lab fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 0.45rem; min-width: 0; }
+.lab legend { font-size: var(--step--1); color: var(--muted); padding: 0; margin-bottom: 0.35rem; }
+.range-field { display: grid; gap: 0.25rem; }
+.range-field label { display: flex; justify-content: space-between; font-size: var(--step--1); color: var(--muted); }
+.range-field output { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--heaven); min-height: 1.8rem; }
+.lab-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.status { font-size: var(--step--1); color: var(--muted); }
+.is-busy { opacity: 0.55; transition: opacity 150ms; }
+
+/* lessons table */
+.lessons { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+.lessons th, .lessons td { text-align: left; vertical-align: top; padding: 0.65rem 0.5rem 0.65rem 0; border-bottom: 1px solid var(--rule); }
+.lessons thead th { font-size: var(--step--1); color: var(--muted); font-weight: 500; }
+.lessons td:first-child { font-weight: 500; width: 40%; }
+.lessons td em { font-family: var(--font-display); color: var(--ink); }
+
+/* tooltip */
+.tip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  max-width: 16rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+.tip-title { font-weight: 600; margin-bottom: 0.2rem; }
+.tip-row { display: flex; align-items: center; gap: 0.4rem; font-variant-numeric: tabular-nums; }
+.tip-row strong { font-weight: 600; }
+.tip-row span { opacity: 0.8; }
+.tip .key-line { width: 12px; }
+
+footer.colophon { padding-block: 3rem 3.5rem; color: var(--muted); font-size: var(--step--1); display: grid; gap: 0.5rem; }
+footer.colophon code { font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="eyebrow">An Axelrod tournament for the parables</p>
+  <h1>Faith <em>Theory</em></h1>
+  <p class="lede"><span class="initial">I</span>n 1980 Robert Axelrod asked game theorists for strategies in a repeated game of trust. The simplest entry, Tit for Tat, beat them all. This lab runs the same kind of tournament, but every player is a kind of faith drawn from Scripture: steadfast, discerning, undulating, small as a mustard seed, lukewarm, or none at all. Each one is tested twice, once under the sun with only the game, and once under heaven with four of God's promises written into the rules.</p>
+  <ol class="findings" aria-label="Key findings">
+    <li><p><strong>Under the sun, Joseph wins.</strong> Leading with trust, answering wrongs, and forgiving about one wrong in three scores highest and grows to more than half of the population within 60 generations. Tit for Tat (Eye for an Eye) comes second.</p><span class="ref">Gen 50:20 · Matt 10:16</span></li>
+    <li><p><strong>Once mistakes happen, forgiveness beats strict justice.</strong> With 5% of moves misfiring, Eye for an Eye falls from 2nd to 7th as single errors set off endless retaliation, while the forgiving strategies hold the top two places.</p><span class="ref">Eccl 9:11 · Matt 18:22</span></li>
+    <li><p><strong>Undulating faith sinks on its own.</strong> A community of wavering believers drifts down to 8% cooperation with no outside help, and a wavering agent scores the same whatever faith it starts with. Under heaven it is held up near 55%, though it is never healed.</p><span class="ref">James 1:6-8 · Matt 14:31</span></li>
+    <li><p><strong>Turning the other cheek pays only under heaven.</strong> Steadfast faith is last under the sun. It becomes first once heaven repays about a third of each wrong (s ≈ 0.3), and the promise that does this is reaping.</p><span class="ref">Matt 5:39 · Rom 12:19</span></li>
+    <li><p><strong>No faith wins early and loses late.</strong> Cain gains share for the first few generations, then is cut down to almost nothing as the people he exploited disappear.</p><span class="ref">Ps 37:1-2 · Ps 73:17</span></li>
+  </ol>
+</header>
+
+<main>
+
+<section class="chapter wrap" id="game" aria-labelledby="game-h">
+  <div class="chapter-head">
+    <p class="marker">The rules</p>
+    <h2 id="game-h">The Covenant Game</h2>
+  </div>
+  <div class="prose">
+    <p>Every step, every player meets every other player once and makes one choice: <strong>keep covenant</strong> (act in good faith) or <strong>betray</strong>. These are the payoffs Axelrod used.</p>
+  </div>
+  <div class="scroll">
+    <table class="payoff">
+      <thead><tr><th scope="col"><span class="sr">Your move</span></th><th scope="col">They keep covenant</th><th scope="col">They betray</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">You keep covenant</th><td><span class="pts">3</span><span class="lbl">Blessing for both</span></td><td><span class="pts">0</span><span class="lbl">Betrayed (they get 5)</span></td></tr>
+        <tr><th scope="row">You betray</th><td><span class="pts">5</span><span class="lbl">Spoil (they get 0)</span></td><td><span class="pts">1</span><span class="lbl">Famine for both</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Each player carries a <strong>faith level</strong> between 0 and 1: the chance that it actually does the good its conscience recommends. Faith without works is dead, so faith only counts here when it turns into a move. Faith is also carried from one relationship to the next, so being betrayed by one neighbour can change how you treat all the others.</p>
+  </div>
+  <blockquote class="verse"><span>Even so faith, if it hath not works, is dead, being alone.</span><span class="ref">James 2:17</span></blockquote>
+
+  <h3>Two worlds</h3>
+  <div class="prose">
+    <p><strong>Under the sun</strong> is the game and nothing else. Whatever happens comes from the players meeting each other. <strong>Under heaven</strong> adds four promises, each turned up by one dial <em>s</em> from 0 (absent) to 1 (in full force). The default is 0.5.</p>
+  </div>
+  <div class="promises">
+    <div class="promise"><h3>Unity</h3><p>When both keep covenant, the blessing grows from 3 to 3 + s.</p><span class="ref">Ps 133:1, 3</span></div>
+    <div class="promise"><h3>Reaping</h3><p>Ten steps after a betrayal, heaven settles a share s of it. The betrayed get back s of what they lost, but only if they have not avenged themselves. The betrayer gives back s of what they gained, unless they have been reconciled by then.</p><span class="ref">Gal 6:7-9 · Rom 12:19 · Matt 5:24</span></div>
+    <div class="promise"><h3>Restoration</h3><p>Faith anchored in God is pulled back toward its anchor every step, so it does not fail.</p><span class="ref">Ps 23:3 · Luke 22:32</span></div>
+    <div class="promise"><h3>Renewal</h3><p>When you do wrong and are met with good, your heart softens and your faith rises. This works for anyone, even the hardened.</p><span class="ref">Ezek 36:26 · Rom 12:20-21</span></div>
+  </div>
+  <p class="callout"><strong>What the heaven results mean.</strong> The four promises are modelled as written here. The heaven results show what follows <em>if</em> they work this way. They are a thought experiment and do not measure God. The results under the sun come only from the game.</p>
+</section>
+
+<section class="chapter wrap" id="cast" aria-labelledby="cast-h">
+  <div class="chapter-head">
+    <p class="marker">The players</p>
+    <h2 id="cast-h">Eleven kinds of faith</h2>
+  </div>
+  <div class="prose"><p>Each archetype is a rule, a starting faith, and a way that faith moves. Several match a classic entry from Axelrod's tournaments; that is noted on each card.</p></div>
+  <div class="cast" id="cast-grid"></div>
+</section>
+
+<section class="chapter wrap" id="tournament" aria-labelledby="tour-h">
+  <div class="chapter-head">
+    <p class="marker">Tests 1 – 3</p>
+    <h2 id="tour-h">The tournament</h2>
+  </div>
+  <div class="prose"><p>Two of each archetype, every pair meeting every step for 200 steps, repeated 20 times. Scores are the average points per move.</p></div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Which world" id="tour-seg">
+      <button type="button" data-k="sun" aria-pressed="true">Under the sun</button>
+      <button type="button" data-k="chance" aria-pressed="false">Time &amp; chance</button>
+      <button type="button" data-k="heaven" aria-pressed="false">Under heaven</button>
+    </div>
+  </div>
+  <div class="prose" id="tour-note"></div>
+  <div id="tour-chart"></div>
+  <details>
+    <summary class="status" style="cursor:pointer">Who scored what against whom</summary>
+    <div style="display:grid;gap:0.6rem;margin-top:0.8rem">
+      <p class="status">Each row's average points per move against each column. The outlined diagonal is the archetype with its own twin.</p>
+      <div class="scroll" id="tour-h2h"></div>
+      <div class="scale" id="tour-scale"></div>
+    </div>
+  </details>
+</section>
+
+<section class="chapter wrap" id="sweep" aria-labelledby="sweep-h">
+  <div class="chapter-head">
+    <p class="marker">Test 3b</p>
+    <h2 id="sweep-h">How much heaven does it take?</h2>
+  </div>
+  <div class="prose"><p>The same tournament, with heaven's strength raised from 0 to 1. Each line is one archetype's rank. Pick one to follow it.</p></div>
+  <div class="chips" id="sweep-chips" role="group" aria-label="Follow an archetype"></div>
+  <div class="chart" id="sweep-chart"></div>
+  <div class="prose" id="sweep-note"></div>
+
+  <h3>Which promise does what?</h3>
+  <div class="prose"><p>Each promise switched on alone at full strength, with 5% chance. The cells show rank (1 is best) and the score.</p></div>
+  <div class="scroll" id="ablation"></div>
+  <div class="prose">
+    <p><strong>Reaping alone</strong> is enough to lift Steadfast from last to first, and it sends Cain to the bottom. <strong>Unity</strong> rewards anyone who reciprocates, so Joseph leads. <strong>Renewal</strong> partly redeems the faithless and warms the lukewarm. <strong>Restoration</strong> does least by itself, because it only holds faith steady and does not change what faith earns.</p>
+  </div>
+</section>
+
+<section class="chapter wrap" id="levels" aria-labelledby="levels-h">
+  <div class="chapter-head">
+    <p class="marker">Test 4</p>
+    <h2 id="levels-h">Levels of faith, face to face</h2>
+  </div>
+  <div class="prose">
+    <p>Here faith is just a level. A <strong>focused</strong> faith holds its level whatever it sees. An <strong>undulating</strong> faith starts at its level, rises and falls with its own tide, and is pushed by how it is treated. Every level meets every other in pairs, and the diagonal is each level <strong>with its own kind</strong>.</p>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Which world" id="levels-seg">
+      <button type="button" data-k="natural" aria-pressed="true">Under the sun</button>
+      <button type="button" data-k="divine" aria-pressed="false">Under heaven</button>
+    </div>
+  </div>
+  <div class="scroll" id="levels-grid"></div>
+  <div class="scale" id="levels-scale"></div>
+  <div class="prose" id="levels-note"></div>
+</section>
+
+<section class="chapter wrap" id="curve" aria-labelledby="curve-h">
+  <div class="chapter-head">
+    <p class="marker">Test 5</p>
+    <h2 id="curve-h">The faith curve</h2>
+  </div>
+  <div class="prose"><p>One newcomer is dropped into the full tournament at each faith level, from none to full. How well does it do?</p></div>
+  <div class="legend" id="curve-legend"></div>
+  <div class="pair" id="curve-pair"></div>
+  <div class="prose">
+    <p><strong>Focused faith:</strong> under the sun, faith barely pays until it is nearly whole. From 0% to 70% the score moves by only a few hundredths, and the real gain is between 80% and 100%. Under heaven every step of faith pays, and full faith earns a third more than none.</p>
+    <p><strong>Undulating faith:</strong> under the sun the line is flat. Wherever it starts, the wind carries it to the same low place (about 0.3), so its starting faith makes no difference. Under heaven it is held up and its level counts again, though it never matches the focused line.</p>
+  </div>
+  <blockquote class="verse"><span>For he that wavereth is like a wave of the sea driven with the wind and tossed. … A double minded man is unstable in all his ways.</span><span class="ref">James 1:6, 8</span></blockquote>
+</section>
+
+<section class="chapter wrap" id="duel" aria-labelledby="duel-h">
+  <div class="chapter-head">
+    <p class="marker">Watch</p>
+    <h2 id="duel-h">Two players, move by move</h2>
+  </div>
+  <div class="prose"><p>Choose any two players (or the same one twice) and watch 100 moves with 5% chance. Each square is one move: <span style="color:var(--kept);font-weight:600">kept covenant</span> or <span style="color:var(--broke);font-weight:600">betrayed</span>. The line under each strip is that player's faith.</p></div>
+  <div class="duel-pick">
+    <label class="field" for="duel-a">First player<select id="duel-a"></select></label>
+    <label class="field" for="duel-b">Second player<select id="duel-b"></select></label>
+    <div class="field"><span>World</span>
+      <div class="seg" role="group" aria-label="Which world" id="duel-seg">
+        <button type="button" data-k="sun" aria-pressed="true">Under the sun</button>
+        <button type="button" data-k="heaven" aria-pressed="false">Under heaven</button>
+      </div>
+    </div>
+  </div>
+  <div id="duel-out" style="display:grid;gap:1rem"></div>
+  <div class="lab-actions"><button type="button" class="btn ghost" id="duel-again">Play again with new chance</button></div>
+</section>
+
+<section class="chapter wrap" id="generations" aria-labelledby="gen-h">
+  <div class="chapter-head">
+    <p class="marker">Test 6</p>
+    <h2 id="gen-h">Generations</h2>
+  </div>
+  <div class="prose"><p>Axelrod's ecological tournament: after each round, every archetype's share of the population grows in proportion to its score. All eleven start at 9.1% and run for 60 generations.</p></div>
+  <div class="legend" id="gen-legend"></div>
+  <div class="multiples" id="gen-grid"></div>
+  <div class="prose">
+    <p><strong>Under the sun</strong>, Joseph takes over (55%), and Tit for Tat, the Prodigal and the Mustard Seed survive beside him. No Faith grows a little at first and then dies out: once the trusting are gone, there is nobody left to exploit. Rocky Ground dies out as well, and Thorny Ground dwindles to about 1%.</p>
+    <p><strong>Under heaven</strong> no single kind takes over. Steadfast and Joseph lead, and the Lukewarm, Prodigal and Mustard Seed share the rest. Strict justice (Eye for an Eye) and Show Me First fade away.</p>
+  </div>
+  <blockquote class="verse"><span>Fret not thyself because of evildoers, neither be thou envious against the workers of iniquity. For they shall soon be cut down like the grass.</span><span class="ref">Psalm 37:1-2</span></blockquote>
+</section>
+
+<section class="chapter wrap" id="righteous" aria-labelledby="ten-h">
+  <div class="chapter-head">
+    <p class="marker">Test 7</p>
+    <h2 id="ten-h">Peradventure ten</h2>
+  </div>
+  <div class="prose"><p>A city of 100 where everyone else is Cain. How many of one kind of faithful must live there before they out-earn the faithless and start to spread? Read across to see the effect of heaven's strength.</p></div>
+  <blockquote class="verse"><span>And he said, I will not destroy it for ten's sake.</span><span class="ref">Genesis 18:32</span></blockquote>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="How the faithful meet" id="ten-seg">
+      <button type="button" data-k="apart" aria-pressed="true">Scattered</button>
+      <button type="button" data-k="together" aria-pressed="false">Assembling together</button>
+    </div>
+  </div>
+  <div class="scroll" id="ten-grid"></div>
+  <p class="status">A dash means that even 50 of 100 would not be enough. “Assembling together” means the faithful spend an extra 20% of their time with their own kind.</p>
+  <div class="prose">
+    <p><strong>Scattered, under the sun:</strong> the reciprocators (Eye for an Eye, Show Me First) need only 5 of 100. Joseph needs 43, because his forgiveness is exploited by a city of Cains. Steadfast, Undulating, Mustard Seed, Prodigal and Lukewarm cannot gain a foothold at all.</p>
+    <p><strong>Assembling together</strong> changes this. Joseph, Eye for an Eye and Show Me First need just one, and the Mustard Seed needs 5. This is Axelrod's cluster result, and it is also Hebrews 10:25. Steadfast faith alone still cannot spread under the sun, but with even a little heaven (s = 0.2) almost every kind needs only one.</p>
+  </div>
+</section>
+
+<section class="chapter wrap" id="storm" aria-labelledby="storm-h">
+  <div class="chapter-head">
+    <p class="marker">Test 8</p>
+    <h2 id="storm-h">The storm</h2>
+  </div>
+  <div class="prose"><p>Every archetype builds a house: four of its own kind living together. The world starts calm, then for 40 steps chance runs wild and 30% of all moves misfire. Then it is calm again. The line shows the share of moves that keep covenant, and the shaded band is the storm.</p></div>
+  <blockquote class="verse"><span>And the rain descended, and the floods came, and the winds blew, and beat upon that house; and it fell not: for it was founded upon a rock.</span><span class="ref">Matthew 7:25</span></blockquote>
+  <div class="legend" id="storm-legend"></div>
+  <div class="multiples" id="storm-grid"></div>
+  <div class="prose">
+    <p><strong>Houses that stood:</strong> Steadfast, Joseph, the Prodigal and the Mustard Seed all return to full covenant almost at once. <strong>Houses that fell:</strong> Eye for an Eye goes from 100% to 49% and never recovers, because once the storm has thrown in a few wrongs, each one is repaid forever. Rocky Ground goes from 100% to nothing: its faith withers in the storm and does not regrow.</p>
+    <p><strong>Houses that never stood:</strong> Thorny Ground's own small betrayals unravel it before any storm comes. In Show Me First's house nobody goes first, so nobody ever sees good faith. The Undulating house sinks by itself under the sun, and under heaven it is held at about half.</p>
+  </div>
+</section>
+
+<section class="chapter wrap" id="lab" aria-labelledby="lab-h">
+  <div class="chapter-head">
+    <p class="marker">Your turn</p>
+    <h2 id="lab-h">Run your own tournament</h2>
+  </div>
+  <div class="prose"><p>Change the world and the cast, then run. The result below starts at the Time &amp; chance settings.</p></div>
+  <form class="lab" id="lab-form" novalidate>
+    <div class="lab-row">
+      <div class="range-field">
+        <label for="lab-noise"><span>Time and chance (misfires)</span><output id="lab-noise-out" for="lab-noise">5%</output></label>
+        <input type="range" id="lab-noise" min="0" max="20" step="1" value="5">
+      </div>
+      <div class="range-field">
+        <label for="lab-heaven"><span>Heaven's strength <i>s</i></span><output id="lab-heaven-out" for="lab-heaven">0.00</output></label>
+        <input type="range" id="lab-heaven" min="0" max="1" step="0.05" value="0">
+      </div>
+      <label class="field" for="lab-steps">Steps per tournament
+        <select id="lab-steps"><option value="100">100</option><option value="200" selected>200</option><option value="400">400</option></select>
+      </label>
+      <label class="field" for="lab-runs">Repetitions
+        <select id="lab-runs"><option value="5">5</option><option value="10">10</option><option value="20" selected>20</option></select>
+      </label>
+    </div>
+    <fieldset>
+      <legend>Promises in force when s is above 0</legend>
+      <div class="chips">
+        <label class="chip" for="lab-unity"><input type="checkbox" id="lab-unity" checked> Unity</label>
+        <label class="chip" for="lab-reaping"><input type="checkbox" id="lab-reaping" checked> Reaping</label>
+        <label class="chip" for="lab-restoration"><input type="checkbox" id="lab-restoration" checked> Restoration</label>
+        <label class="chip" for="lab-renewal"><input type="checkbox" id="lab-renewal" checked> Renewal</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Who plays (at least two)</legend>
+      <div class="chips" id="lab-cast"></div>
+    </fieldset>
+    <div class="lab-actions">
+      <button type="submit" class="btn" id="lab-run">Run the tournament</button>
+      <span class="status" id="lab-status" role="status">Showing: time &amp; chance, 20 repetitions.</span>
+    </div>
+  </form>
+  <div id="lab-chart"></div>
+</section>
+
+<section class="chapter wrap" id="lessons" aria-labelledby="lessons-h">
+  <div class="chapter-head">
+    <p class="marker">What it adds up to</p>
+    <h2 id="lessons-h">Axelrod's advice, and where Scripture said it first</h2>
+  </div>
+  <div class="scroll">
+    <table class="lessons">
+      <thead><tr><th scope="col">From the tournaments</th><th scope="col">From Scripture</th></tr></thead>
+      <tbody>
+        <tr><td>Don't be envious of how well your partner does.</td><td><em>Fret not thyself because of evildoers, neither be thou envious.</em> <span class="ref">Ps 37:1</span></td></tr>
+        <tr><td>Don't be the first to betray.</td><td><em>As ye would that men should do to you, do ye also to them likewise.</em> <span class="ref">Luke 6:31</span></td></tr>
+        <tr><td>Answer both good and bad in kind.</td><td><em>With what measure ye mete, it shall be measured to you again.</em> <span class="ref">Matt 7:2</span></td></tr>
+        <tr><td>Don't be too clever.</td><td><em>Lean not unto thine own understanding.</em> <span class="ref">Prov 3:5</span></td></tr>
+        <tr><td>When mistakes happen, forgive (tests 2, 8).</td><td><em>Until seventy times seven.</em> <span class="ref">Matt 18:22</span></td></tr>
+        <tr><td>Meet with your own kind and a few can change a city (test 7).</td><td><em>Not forsaking the assembling of ourselves together.</em> <span class="ref">Heb 10:25</span></td></tr>
+        <tr><td>Hold steady; wavering costs more than low faith (tests 4, 5).</td><td><em>A double minded man is unstable in all his ways.</em> <span class="ref">James 1:8</span></td></tr>
+        <tr><td>Don't trust only what you have seen (test 1, test 8).</td><td><em>Blessed are they that have not seen, and yet have believed.</em> <span class="ref">John 20:29</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="chapter wrap" id="method" aria-labelledby="method-h">
+  <div class="chapter-head">
+    <p class="marker">How it works</p>
+    <h2 id="method-h">Method and limits</h2>
+  </div>
+  <div class="prose">
+    <p>On each move a player's conscience recommends keeping covenant or holding back, according to its rule: always keep it, mirror the partner's last move, wait for proof first, or win-stay lose-shift. It follows a good recommendation with probability equal to its faith (less any greed). When the rule says to retaliate, it shows mercy with probability equal to its faith times its mercy. Under chance, any move can misfire.</p>
+    <p>Faith then moves. Being treated well raises sight-based faith and being betrayed lowers it, at rates that differ by archetype. Undulating faith also has its own tide. Under heaven, restoration and renewal move faith as described above.</p>
+    <p>Every result is seeded and averaged over many runs. As Axelrod found, rankings depend on who else is in the field, so the lab lets you change the cast. The heaven results depend on how the promises were modelled, which is why the dial goes from 0 to 1 and each promise can be tested alone. This is a way to think with the parables. It is not a proof about God.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon wrap">
+  <hr class="rule">
+  <p>Engine: <code>public/faith/engine.js</code>. Regenerate every number on this page with <code>npm run faith</code>; check the engine with <code>npm run test:faith</code>. Scripture quoted from the King James Version.</p>
+  <p>After R. Axelrod, <i>The Evolution of Cooperation</i> (1984); M. Nowak &amp; K. Sigmund, <i>Nature</i> 355 (1992) and 364 (1993).</p>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="engine.js"></script>
+<script src="results.js"></script>
+<script>
+(function () {
+  "use strict";
+  var FT = window.FaithTheory;
+  var R = window.FAITH_RESULTS;
+  if (!FT || !R) return;
+  var ARCH = R.archetypes;
+  var byId = {};
+  ARCH.forEach(function (a) { byId[a.id] = a; });
+  var SVG = "http://www.w3.org/2000/svg";
+
+  // ------------------------------------------------------------ dom helpers
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    setAttrs(el, attrs);
+    append(el, kids);
+    return el;
+  }
+  function s(tag, attrs, kids) {
+    var el = document.createElementNS(SVG, tag);
+    setAttrs(el, attrs);
+    append(el, kids);
+    return el;
+  }
+  function setAttrs(el, attrs) {
+    if (!attrs) return;
+    for (var k in attrs) {
+      if (attrs[k] == null || attrs[k] === false) continue;
+      if (k === "text") el.textContent = attrs[k];
+      else el.setAttribute(k, attrs[k]);
+    }
+  }
+  function append(el, kids) {
+    if (kids == null) return;
+    if (!Array.isArray(kids)) kids = [kids];
+    kids.forEach(function (c) {
+      if (c == null || c === false) return;
+      el.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    });
+  }
+  function cssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function f2(x) { return x == null ? "—" : x.toFixed(2); }
+  function pct(x) { return x == null ? "—" : Math.round(x * 100) + "%"; }
+
+  // ------------------------------------------------------- colour ramps
+  function hexToRgb(hex) {
+    hex = hex.replace("#", "");
+    if (hex.length === 3) hex = hex.split("").map(function (c) { return c + c; }).join("");
+    return [parseInt(hex.slice(0, 2), 16) / 255, parseInt(hex.slice(2, 4), 16) / 255, parseInt(hex.slice(4, 6), 16) / 255];
+  }
+  function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+  function toOklab(rgb) {
+    var r = toLin(rgb[0]), g = toLin(rgb[1]), b = toLin(rgb[2]);
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var q = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * q, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * q, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * q];
+  }
+  function fromOklab(lab) {
+    var l = lab[0] + 0.3963377774 * lab[1] + 0.2158037573 * lab[2];
+    var m = lab[0] - 0.1055613458 * lab[1] - 0.0638541728 * lab[2];
+    var q = lab[0] - 0.0894841775 * lab[1] - 1.291485548 * lab[2];
+    l = l * l * l; m = m * m * m; q = q * q * q;
+    var rgb = [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * q, -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * q, -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * q];
+    return "#" + rgb.map(function (c) {
+      var v = Math.round(Math.max(0, Math.min(1, fromLin(c))) * 255);
+      return (v < 16 ? "0" : "") + v.toString(16);
+    }).join("");
+  }
+  function ramp(t) {
+    t = Math.max(0, Math.min(1, t));
+    var a = toOklab(hexToRgb(cssVar("--seq-lo"))), b = toOklab(hexToRgb(cssVar("--seq-hi")));
+    return fromOklab([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]);
+  }
+  function inkOn(hex) {
+    var rgb = hexToRgb(hex);
+    var L = 0.2126 * toLin(rgb[0]) + 0.7152 * toLin(rgb[1]) + 0.0722 * toLin(rgb[2]);
+    return L > 0.33 ? "#1f1a17" : "#fbf7ec";
+  }
+  function scaleLegend(host, lo, hi, loLabel, hiLabel) {
+    host.replaceChildren();
+    var stops = [];
+    for (var i = 0; i <= 8; i++) stops.push(ramp(i / 8) + " " + (i * 12.5) + "%");
+    append(host, [
+      h("span", { text: loLabel || f2(lo) }),
+      h("span", { class: "ramp", style: "background:linear-gradient(90deg," + stops.join(",") + ")" }),
+      h("span", { text: hiLabel || f2(hi) }),
+    ]);
+  }
+
+  // ------------------------------------------------------------- tooltip
+  var tip = document.getElementById("tip");
+  function showTip(x, y, title, rows) {
+    tip.replaceChildren();
+    if (title) tip.appendChild(h("div", { class: "tip-title", text: title }));
+    (rows || []).forEach(function (r) {
+      var row = h("div", { class: "tip-row" });
+      if (r.color) row.appendChild(h("span", { class: "key-line", style: "background:" + r.color }));
+      row.appendChild(h("strong", { text: r.value }));
+      if (r.label) row.appendChild(h("span", { text: r.label }));
+      tip.appendChild(row);
+    });
+    tip.hidden = false;
+    var w = tip.offsetWidth, ht = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x + 14), window.innerWidth - w - 8);
+    var top = y + 16 + ht > window.innerHeight - 8 ? y - ht - 12 : y + 16;
+    tip.style.left = left + "px";
+    tip.style.top = Math.max(8, top) + "px";
+  }
+  function hideTip() { tip.hidden = true; }
+  function tipFor(el, fn) {
+    el.addEventListener("pointermove", function (e) { var t = fn(); showTip(e.clientX, e.clientY, t.title, t.rows); });
+    el.addEventListener("pointerleave", hideTip);
+    el.addEventListener("focus", function () { var r = el.getBoundingClientRect(); var t = fn(); showTip(r.left + r.width / 2, r.bottom - 6, t.title, t.rows); });
+    el.addEventListener("blur", hideTip);
+  }
+  window.addEventListener("scroll", hideTip, { passive: true });
+
+  // ---------------------------------------------------- render registry
+  var renderers = [];
+  function live(host, fn) {
+    renderers.push(fn);
+    fn();
+    if (window.ResizeObserver) {
+      var lastW = host.clientWidth;
+      new ResizeObserver(function () {
+        if (Math.abs(host.clientWidth - lastW) > 4) { lastW = host.clientWidth; fn(); }
+      }).observe(host);
+    }
+  }
+  function rerenderAll() { renderers.forEach(function (fn) { fn(); }); }
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", rerenderAll);
+  }
+  new MutationObserver(rerenderAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  function segmented(id, initial, onChange) {
+    var root = document.getElementById(id);
+    var state = initial;
+    var buttons = Array.prototype.slice.call(root.querySelectorAll("button"));
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        state = b.getAttribute("data-k");
+        buttons.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        onChange(state);
+      });
+    });
+    return function () { return state; };
+  }
+
+  // ------------------------------------------------------------- the cast
+  var SOURCE = { divine: "Anchored in God", sight: "Trust by sight", none: "No anchor" };
+  (function renderCast() {
+    var grid = document.getElementById("cast-grid");
+    ARCH.forEach(function (a) {
+      grid.appendChild(h("article", { class: "card" }, [
+        h("div", { class: "card-top" }, [h("h3", { text: a.name }), h("span", { class: "who", text: a.figure })]),
+        h("q", { text: a.quote }),
+        h("span", { class: "ref", text: a.ref }),
+        h("p", { class: "blurb", text: a.blurb }),
+        h("div", { class: "tags" }, [
+          h("span", { class: "tag src-" + a.source, text: SOURCE[a.source] }),
+          h("span", { class: "tag", text: "Classic: " + a.classic }),
+        ]),
+      ]));
+    });
+  })();
+
+  // ------------------------------------------------------- ranking chart
+  function rankingChart(host, rows, colorVar, scaleMax) {
+    host.replaceChildren();
+    var sorted = rows.slice().sort(function (a, b) { return a.rank - b.rank; });
+    var max = scaleMax || Math.max.apply(null, sorted.map(function (r) { return r.score; })) * 1.04;
+    var ol = h("ol", { class: "rank", "aria-label": "Ranking by points per move" });
+    sorted.forEach(function (r) {
+      var a = byId[r.id];
+      var li = h("li", { class: "rank-row", tabindex: "0" }, [
+        h("span", { class: "rank-n", text: String(r.rank) }),
+        h("div", { class: "rank-name" }, [h("span", { class: "nm", text: a.name }), h("span", { class: "sub", text: a.figure })]),
+        h("div", { class: "rank-bar" }, [
+          h("span", { class: "bar", style: "--w:" + Math.max(0, r.score / max) + ";background:var(" + colorVar + ")" }),
+          h("span", { class: "val", text: f2(r.score) }),
+        ]),
+      ]);
+      tipFor(li, function () {
+        return {
+          title: a.name + " · #" + r.rank,
+          rows: [
+            { value: f2(r.score) + (r.se != null ? " ± " + r.se.toFixed(3) : ""), label: "points per move" },
+            { value: pct(r.coop), label: "of moves kept covenant" },
+            { value: f2(r.meanFaith), label: "average faith" },
+          ],
+        };
+      });
+      ol.appendChild(li);
+    });
+    host.appendChild(ol);
+  }
+
+  // ----------------------------------------------------------- heatmap
+  function heatmap(host, rowLabels, colLabels, M, lo, hi, opts) {
+    opts = opts || {};
+    host.replaceChildren();
+    var table = h("table", { class: "grid" + (opts.wide ? " wide" : "") });
+    if (opts.caption) table.appendChild(h("caption", { class: "status", style: "text-align:left;padding-bottom:0.4rem", text: opts.caption }));
+    var thead = h("thead");
+    var hr = h("tr", null, [h("th", { scope: "col", text: opts.corner || "" })]);
+    colLabels.forEach(function (c) { hr.appendChild(h("th", { scope: "col", class: opts.rotate ? "rot" : "" }, h("span", { text: c }))); });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tb = h("tbody");
+    rowLabels.forEach(function (rl, i) {
+      var tr = h("tr", null, [h("th", { scope: "row", text: rl })]);
+      colLabels.forEach(function (cl, j) {
+        var v = M[i][j];
+        var cell = opts.cell ? opts.cell(v, i, j) : { text: f2(v), t: v == null ? null : (v - lo) / (hi - lo) };
+        var bg = cell.t == null ? "transparent" : ramp(cell.t);
+        var td = h("td", {
+          tabindex: "0",
+          class: opts.diagonal && i === j ? "self" : "",
+          style: "background:" + bg + ";color:" + (cell.t == null ? "var(--muted)" : inkOn(bg)),
+          text: cell.text,
+        });
+        tipFor(td, function () { return opts.tip ? opts.tip(v, i, j) : { title: rl + " vs " + cl, rows: [{ value: f2(v), label: "points per move" }] }; });
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    table.appendChild(tb);
+    host.appendChild(table);
+  }
+
+  // -------------------------------------------------------- line chart
+  // cfg: { height, x:{min,max,ticks,fmt}, y:{min,max,ticks,fmt,invert}, series:[{label,color,points,width,quiet,endLabel}], band:{from,to}, tipTitle(x), tipFmt(v), compact, aria }
+  function lineChart(host, cfg) {
+    host.replaceChildren();
+    var W = Math.max(200, host.clientWidth || 300);
+    var H = cfg.height || 220;
+    var m = { l: cfg.compact ? 28 : 38, r: cfg.endLabels ? 96 : 10, t: 8, b: cfg.compact ? 18 : 26 };
+    var iw = W - m.l - m.r, ih = H - m.t - m.b;
+    var X = function (v) { return m.l + ((v - cfg.x.min) / (cfg.x.max - cfg.x.min)) * iw; };
+    var Y = function (v) {
+      var t = (v - cfg.y.min) / (cfg.y.max - cfg.y.min);
+      return cfg.y.invert ? m.t + t * ih : m.t + (1 - t) * ih;
+    };
+    var muted = cssVar("--muted"), grid = cssVar("--grid"), axis = cssVar("--axis"), surface = cssVar("--surface");
+    var svg = s("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": cfg.aria || "Line chart" });
+    if (cfg.band) {
+      svg.appendChild(s("rect", { x: X(cfg.band.from), y: m.t, width: X(cfg.band.to) - X(cfg.band.from), height: ih, fill: cssVar("--surface-2") }));
+      if (!cfg.compact && cfg.band.label) svg.appendChild(s("text", { x: X(cfg.band.from) + 4, y: m.t + 12, fill: muted, "font-size": 11, text: cfg.band.label }));
+    }
+    cfg.y.ticks.forEach(function (v) {
+      svg.appendChild(s("line", { x1: m.l, x2: m.l + iw, y1: Y(v), y2: Y(v), stroke: grid, "stroke-width": 1 }));
+      svg.appendChild(s("text", { x: m.l - 6, y: Y(v) + 3.5, "text-anchor": "end", fill: muted, "font-size": cfg.compact ? 10 : 11, "font-variant-numeric": "tabular-nums", text: cfg.y.fmt(v) }));
+    });
+    svg.appendChild(s("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, stroke: axis, "stroke-width": 1 }));
+    cfg.x.ticks.forEach(function (v, i) {
+      var anchor = i === 0 ? "start" : i === cfg.x.ticks.length - 1 ? "end" : "middle";
+      svg.appendChild(s("text", { x: X(v), y: H - 6, "text-anchor": anchor, fill: muted, "font-size": cfg.compact ? 10 : 11, text: cfg.x.fmt(v) }));
+    });
+    var drawOrder = cfg.series.slice().sort(function (a, b) { return (b.quiet ? 1 : 0) - (a.quiet ? 1 : 0); });
+    drawOrder.forEach(function (se) {
+      var d = "";
+      se.points.forEach(function (p, i) {
+        if (p[1] == null) return;
+        d += (d === "" ? "M" : "L") + X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1);
+      });
+      svg.appendChild(s("path", { d: d, fill: "none", stroke: se.color, "stroke-width": se.width || 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+      if (se.endLabel && cfg.endLabels) {
+        var lp = se.points[se.points.length - 1];
+        svg.appendChild(s("circle", { cx: X(lp[0]), cy: Y(lp[1]), r: 4, fill: se.color, stroke: surface, "stroke-width": 2 }));
+        svg.appendChild(s("text", { x: X(lp[0]) + 8, y: Y(lp[1]) + (se.labelDy || 0) + 4, fill: cssVar("--ink"), "font-size": 12, "font-weight": 500, text: se.label }));
+      }
+    });
+    // hover layer
+    var cross = s("line", { y1: m.t, y2: m.t + ih, stroke: axis, "stroke-width": 1, visibility: "hidden" });
+    svg.appendChild(cross);
+    var dots = cfg.series.filter(function (se) { return !se.quiet; }).map(function (se) {
+      var c = s("circle", { r: 4, fill: se.color, stroke: surface, "stroke-width": 2, visibility: "hidden" });
+      svg.appendChild(c);
+      return { se: se, c: c };
+    });
+    var hit = s("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent", tabindex: "0", "aria-label": (cfg.aria || "Chart") + ". Use the arrow keys to read values." });
+    svg.appendChild(hit);
+    var xs = cfg.series[0].points.map(function (p) { return p[0]; });
+    var focusIdx = xs.length - 1;
+    function at(idx, cx, cy) {
+      idx = Math.max(0, Math.min(xs.length - 1, idx));
+      focusIdx = idx;
+      var xv = xs[idx];
+      cross.setAttribute("x1", X(xv)); cross.setAttribute("x2", X(xv)); cross.setAttribute("visibility", "visible");
+      var rows = [];
+      dots.forEach(function (d) {
+        var p = d.se.points[idx];
+        if (!p || p[1] == null) { d.c.setAttribute("visibility", "hidden"); return; }
+        d.c.setAttribute("cx", X(p[0])); d.c.setAttribute("cy", Y(p[1])); d.c.setAttribute("visibility", "visible");
+      });
+      var list = cfg.tipRows ? cfg.tipRows(idx) : cfg.series.filter(function (se) { return !se.quiet; }).map(function (se) {
+        return { color: se.color, value: cfg.tipFmt(se.points[idx][1]), label: se.label };
+      });
+      showTip(cx, cy, cfg.tipTitle(xv), list);
+    }
+    function clear() {
+      cross.setAttribute("visibility", "hidden");
+      dots.forEach(function (d) { d.c.setAttribute("visibility", "hidden"); });
+      hideTip();
+    }
+    hit.addEventListener("pointermove", function (e) {
+      var r = svg.getBoundingClientRect();
+      var px = e.clientX - r.left;
+      var xv = cfg.x.min + ((px - m.l) / iw) * (cfg.x.max - cfg.x.min);
+      var best = 0, bd = Infinity;
+      xs.forEach(function (x, i) { var dd = Math.abs(x - xv); if (dd < bd) { bd = dd; best = i; } });
+      at(best, e.clientX, e.clientY);
+    });
+    hit.addEventListener("pointerleave", clear);
+    hit.addEventListener("blur", clear);
+    hit.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      var r = svg.getBoundingClientRect();
+      var idx = focusIdx + (e.key === "ArrowRight" ? 1 : -1);
+      idx = Math.max(0, Math.min(xs.length - 1, idx));
+      at(idx, r.left + X(xs[idx]), r.top + m.t + 10);
+    });
+    hit.addEventListener("focus", function () {
+      var r = svg.getBoundingClientRect();
+      at(focusIdx, r.left + X(xs[focusIdx]), r.top + m.t + 10);
+    });
+    host.appendChild(svg);
+  }
+
+  function worldLegend(id) {
+    var host = document.getElementById(id);
+    host.replaceChildren();
+    append(host, [
+      h("span", null, [h("i", { class: "key-line", style: "background:var(--sun)" }), "Under the sun"]),
+      h("span", null, [h("i", { class: "key-line", style: "background:var(--heaven)" }), "Under heaven (s = " + R.params.heaven + ")"]),
+    ]);
+  }
+
+  // ---------------------------------------------------------- tests 1–3
+  var TOUR_NOTES = {
+    sun: "No mistakes, only the game. <strong>Joseph's discerning faith</strong> (lead with trust, answer wrongs, forgive about one in three) wins, with <strong>Eye for an Eye</strong> (Axelrod's Tit for Tat) second. Steadfast keeps covenant every time but is exploited, and finishes mid-table. Thorny Ground finishes last: a little secret betrayal starts endless retaliation. Rocky and Undulating faith lose their faith as they go (average 0.07 and 0.33).",
+    chance: "Now 5% of moves misfire. The field bunches up: nine of eleven finish within 0.05 of each other. The forgiving players (<strong>Joseph</strong>, the <strong>Prodigal</strong>) still lead, while Eye for an Eye drops to 7th because one accident is repaid, then repaid again, forever. Steadfast falls to last place.",
+    heaven: "Same misfires, with the four promises at s = 0.5. <strong>Steadfast rises to first.</strong> The Lukewarm come second because renewal warms them (Rev 3:19). Joseph is third. Eye for an Eye sinks to 7th, because avenging yourself gives up heaven's repayment (Rom 12:19). No Faith and Rocky Ground finish last.",
+  };
+  var tourState = "sun";
+  function renderTour() {
+    var data = R[tourState];
+    document.getElementById("tour-note").innerHTML = "<p>" + TOUR_NOTES[tourState] + "</p>";
+    var color = tourState === "heaven" ? "--heaven" : "--sun";
+    rankingChart(document.getElementById("tour-chart"), data.rows, color, 3.4);
+    var labels = ARCH.map(function (a) { return a.name; });
+    heatmap(document.getElementById("tour-h2h"), labels, labels, data.h2h, 0, 5, { rotate: true, diagonal: true, corner: "You ↓  partner →" });
+    scaleLegend(document.getElementById("tour-scale"), 0, 5, "0 points", "5 points");
+  }
+  segmented("tour-seg", "sun", function (k) { tourState = k; renderTour(); });
+  live(document.getElementById("tour-chart"), renderTour);
+
+  // ------------------------------------------------------------ sweep
+  var sweepFocus = "steadfast";
+  var chipHost = document.getElementById("sweep-chips");
+  ARCH.forEach(function (a) {
+    var b = h("button", { type: "button", class: "chip", "aria-pressed": String(a.id === sweepFocus), text: a.name });
+    b.addEventListener("click", function () {
+      sweepFocus = a.id;
+      Array.prototype.forEach.call(chipHost.children, function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+      renderSweep();
+    });
+    chipHost.appendChild(b);
+  });
+  function renderSweep() {
+    var host = document.getElementById("sweep-chart");
+    var sw = R.sweep;
+    var emph = cssVar("--emph"), quiet = cssVar("--quiet-line");
+    var series = ARCH.map(function (a, k) {
+      var focus = a.id === sweepFocus;
+      return {
+        label: a.name,
+        color: focus ? emph : quiet,
+        width: focus ? 2.5 : 1.5,
+        quiet: !focus,
+        endLabel: focus,
+        points: sw.map(function (x) { return [x.s, x.rows[k].rank]; }),
+      };
+    });
+    lineChart(host, {
+      height: 280,
+      endLabels: true,
+      x: { min: 0, max: 1, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: function (v) { return "s = " + v; } },
+      y: { min: 1, max: ARCH.length, ticks: [1, 3, 5, 7, 9, 11], fmt: function (v) { return "#" + v; }, invert: true },
+      series: series,
+      aria: "Rank of each archetype as heaven's strength rises from 0 to 1",
+      tipTitle: function (v) { return "Heaven's strength s = " + v.toFixed(1); },
+      tipRows: function (idx) {
+        return sw[idx].rows.slice().sort(function (a, b) { return a.rank - b.rank; }).map(function (r) {
+          return { color: r.id === sweepFocus ? emph : null, value: "#" + r.rank, label: byId[r.id].name + " · " + f2(r.score) };
+        });
+      },
+    });
+    var pts = R.sweep.map(function (x) { return x.rows[ARCH.findIndex(function (a) { return a.id === sweepFocus; })]; });
+    var first = pts[0], last = pts[pts.length - 1];
+    var bestRank = Math.min.apply(null, pts.map(function (p) { return p.rank; }));
+    var bestAt = R.sweep[pts.findIndex(function (p) { return p.rank === bestRank; })].s;
+    document.getElementById("sweep-note").innerHTML = "<p><strong>" + byId[sweepFocus].name + "</strong> is #" + first.rank + " under the sun (s = 0) and #" + last.rank + " at full strength (s = 1). Its best rank is #" + bestRank + ", first reached at s = " + bestAt + ".</p>";
+  }
+  live(document.getElementById("sweep-chart"), renderSweep);
+
+  function renderAblation() {
+    var ab = R.ablation;
+    var M = ARCH.map(function (a, k) { return ab.map(function (c) { return c.rows[k]; }); });
+    heatmap(document.getElementById("ablation"), ARCH.map(function (a) { return a.name; }), ab.map(function (c) { return c.label; }), M, 0, 1, {
+      wide: true,
+      cell: function (row) { return { text: "#" + row.rank, t: (ARCH.length - row.rank) / (ARCH.length - 1) }; },
+      tip: function (row, i, j) { return { title: ARCH[i].name + " · " + ab[j].label, rows: [{ value: "#" + row.rank, label: "rank" }, { value: f2(row.score), label: "points per move" }] }; },
+    });
+  }
+  live(document.getElementById("ablation"), renderAblation);
+
+  // ----------------------------------------------------------- levels
+  var levelsState = "natural";
+  var LEVEL_NOTES = {
+    natural: "Under the sun, how much faith pays depends on who you meet. Facing full faith, more faith earns more (2.85 against 2.43). Facing no faith, less faith earns more (1.14 against 0.79). Along the diagonal, a house of full faith earns 2.85 per move and a house of none earns 1.14. A wavering house at 85% (1.43) does about as well as a steady house at 25% (1.40).",
+    divine: "Under heaven, full faith is the best row in every column, even against the faithless (1.99 against 1.40). Every house on the diagonal does better than under the sun, but the wavering house at 85% (2.10) still trails the steady house at 75% (2.76).",
+  };
+  function renderLevels() {
+    var L = R.levels;
+    heatmap(document.getElementById("levels-grid"), L.labels, L.labels, L[levelsState], 0.5, 3.5, { rotate: true, diagonal: true, corner: "You ↓  partner →" });
+    scaleLegend(document.getElementById("levels-scale"), 0.5, 3.5, "0.5", "3.5 points per move");
+    document.getElementById("levels-note").innerHTML = "<p>" + LEVEL_NOTES[levelsState] + "</p>";
+  }
+  segmented("levels-seg", "natural", function (k) { levelsState = k; renderLevels(); });
+  live(document.getElementById("levels-grid"), renderLevels);
+
+  // ------------------------------------------------------------ curve
+  worldLegend("curve-legend");
+  var curvePair = document.getElementById("curve-pair");
+  var curvePanels = ["focused", "undulating"].map(function (style) {
+    var host = h("div", { class: "chart" });
+    curvePair.appendChild(h("div", { class: "panel" }, [h("div", { class: "panel-head" }, [h("b", { text: style === "focused" ? "Focused faith" : "Undulating faith" })]), host]));
+    return { style: style, host: host };
+  });
+  function renderCurve() {
+    var sun = cssVar("--sun"), heaven = cssVar("--heaven");
+    curvePanels.forEach(function (p) {
+      var nat = R.curve[p.style + "_natural"], div = R.curve[p.style + "_divine"];
+      lineChart(p.host, {
+        height: 220,
+        x: { min: 0, max: 1, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: function (v) { return Math.round(v * 100) + "%"; } },
+        y: { min: 1.8, max: 3.2, ticks: [2, 2.4, 2.8, 3.2], fmt: function (v) { return v.toFixed(1); } },
+        series: [
+          { label: "Under the sun", color: sun, points: nat.map(function (q) { return [q.level, q.score]; }) },
+          { label: "Under heaven", color: heaven, points: div.map(function (q) { return [q.level, q.score]; }) },
+        ],
+        aria: (p.style === "focused" ? "Focused" : "Undulating") + " faith: score by faith level, under the sun and under heaven",
+        tipTitle: function (v) { return "Faith level " + Math.round(v * 100) + "%"; },
+        tipFmt: function (v) { return f2(v); },
+      });
+    });
+  }
+  live(curvePair, renderCurve);
+
+  // -------------------------------------------------------- duel viewer
+  var selA = document.getElementById("duel-a"), selB = document.getElementById("duel-b");
+  ARCH.forEach(function (a) {
+    selA.appendChild(h("option", { value: a.id, text: a.name + " (" + a.figure + ")" }));
+    selB.appendChild(h("option", { value: a.id, text: a.name + " (" + a.figure + ")" }));
+  });
+  selA.value = "peter"; selB.value = "peter";
+  var duelWorld = "sun", duelSeed = 7;
+  function renderDuel() {
+    var out = document.getElementById("duel-out");
+    out.replaceChildren();
+    var world = duelWorld === "heaven" ? { noise: 0.05, divine: R.params.heaven } : { noise: 0.05 };
+    var steps = 100;
+    var res = FT.simulate({ defs: [FT.BY_ID[selA.value], FT.BY_ID[selB.value]], group: [0, 1], groups: 2, world: world, steps: steps, seed: duelSeed, track: true });
+    var kept = cssVar("--kept"), broke = cssVar("--broke"), ink2 = cssVar("--ink-2"), grid = cssVar("--grid");
+    [0, 1].forEach(function (g) {
+      var a = byId[g === 0 ? selA.value : selB.value];
+      var moves = res.timeline.coop[g], faith = res.timeline.faith[g];
+      var keptN = moves.reduce(function (x, y) { return x + y; }, 0);
+      var strip = h("div", { class: "strip", role: "img", "aria-label": a.name + " kept covenant on " + Math.round(keptN) + " of " + steps + " moves" });
+      moves.forEach(function (m) { strip.appendChild(h("i", { style: "background:" + (m >= 0.5 ? kept : broke) })); });
+      var fw = Math.max(200, out.clientWidth || 300), fh = 34;
+      var d = "";
+      faith.forEach(function (v, t) { d += (t ? "L" : "M") + ((t / (steps - 1)) * fw).toFixed(1) + "," + (2 + (1 - v) * (fh - 4)).toFixed(1); });
+      var spark = s("svg", { width: fw, height: fh, viewBox: "0 0 " + fw + " " + fh, role: "img", "aria-label": a.name + " faith from " + f2(faith[0]) + " to " + f2(faith[steps - 1]) }, [
+        s("line", { x1: 0, x2: fw, y1: fh - 2, y2: fh - 2, stroke: grid, "stroke-width": 1 }),
+        s("line", { x1: 0, x2: fw, y1: 2, y2: 2, stroke: grid, "stroke-width": 1 }),
+        s("path", { d: d, fill: "none", stroke: ink2, "stroke-width": 1.5, "stroke-linejoin": "round" }),
+      ]);
+      out.appendChild(h("div", { class: "strip-wrap" }, [
+        h("div", { class: "strip-head" }, [
+          h("b", { text: (g === 0 ? "1 · " : "2 · ") + a.name }),
+          h("span", { text: f2(res.groups[g].score) + " pts/move · kept " + Math.round((keptN / steps) * 100) + "% · faith " + f2(faith[0]) + " → " + f2(faith[steps - 1]) }),
+        ]),
+        strip,
+        h("div", { class: "chart" }, spark),
+      ]));
+    });
+  }
+  selA.addEventListener("change", renderDuel);
+  selB.addEventListener("change", renderDuel);
+  segmented("duel-seg", "sun", function (k) { duelWorld = k; renderDuel(); });
+  document.getElementById("duel-again").addEventListener("click", function () { duelSeed += 1; renderDuel(); });
+  live(document.getElementById("duel-out"), renderDuel);
+
+  // ------------------------------------------------------- generations
+  worldLegend("gen-legend");
+  var genGrid = document.getElementById("gen-grid");
+  var genPanels = ARCH.map(function (a, k) {
+    var host = h("div", { class: "chart" });
+    var nat = R.generations.natural, div = R.generations.divine;
+    var last = nat.length - 1;
+    genGrid.appendChild(h("div", { class: "panel" }, [
+      h("div", { class: "panel-head" }, [h("b", { text: a.name }), h("span", { text: (nat[last][k] * 100).toFixed(1) + "% · " + (div[last][k] * 100).toFixed(1) + "%" })]),
+      host,
+    ]));
+    return { k: k, host: host, a: a };
+  });
+  var genMax = 0;
+  ["natural", "divine"].forEach(function (w) { R.generations[w].forEach(function (row) { row.forEach(function (x) { genMax = Math.max(genMax, x); }); }); });
+  genMax = Math.ceil(genMax * 10) / 10;
+  function renderGenerations() {
+    var sun = cssVar("--sun"), heaven = cssVar("--heaven");
+    genPanels.forEach(function (p) {
+      lineChart(p.host, {
+        height: 110,
+        compact: true,
+        x: { min: 0, max: 60, ticks: [0, 30, 60], fmt: function (v) { return v === 0 ? "gen 0" : String(v); } },
+        y: { min: 0, max: genMax, ticks: [0, genMax / 2, genMax], fmt: function (v) { return Math.round(v * 100) + "%"; } },
+        series: [
+          { label: "Under the sun", color: sun, points: R.generations.natural.map(function (row, g) { return [g, row[p.k]]; }) },
+          { label: "Under heaven", color: heaven, points: R.generations.divine.map(function (row, g) { return [g, row[p.k]]; }) },
+        ],
+        aria: p.a.name + ": share of the population over 60 generations",
+        tipTitle: function (v) { return p.a.name + " · generation " + v; },
+        tipFmt: function (v) { return (v * 100).toFixed(1) + "%"; },
+      });
+    });
+  }
+  live(genGrid, renderGenerations);
+
+  // ------------------------------------------------------- ten righteous
+  var tenState = "apart";
+  function renderTen() {
+    var T = R.righteous;
+    var rows = T.ids.map(function (id) { return byId[id].name; });
+    var cols = T.strengths.map(function (x) { return x === 0 ? "Sun (s = 0)" : "s = " + x; });
+    heatmap(document.getElementById("ten-grid"), rows, cols, T[tenState], 0, 1, {
+      wide: true,
+      corner: "Of 100 needed",
+      cell: function (v) { return v == null ? { text: "—", t: 1 } : { text: String(v), t: Math.min(1, (v - 1) / (T.max - 1)) * 0.85 }; },
+      tip: function (v, i, j) {
+        return { title: rows[i] + " · " + cols[j], rows: [{ value: v == null ? "More than " + T.max : String(v), label: v === 1 ? "faithful person is enough" : "faithful needed of 100" }] };
+      },
+    });
+  }
+  segmented("ten-seg", "apart", function (k) { tenState = k; renderTen(); });
+  live(document.getElementById("ten-grid"), renderTen);
+
+  // ------------------------------------------------------------- storm
+  worldLegend("storm-legend");
+  var stormGrid = document.getElementById("storm-grid");
+  var stormPanels = R.storm.natural.summary.map(function (sm, k) {
+    var host = h("div", { class: "chart" });
+    var dv = R.storm.divine.summary[k];
+    stormGrid.appendChild(h("div", { class: "panel" }, [
+      h("div", { class: "panel-head" }, [h("b", { text: byId[sm.id].name }), h("span", { text: "after: " + pct(sm.after) + " · " + pct(dv.after) })]),
+      host,
+    ]));
+    return { k: k, id: sm.id, host: host };
+  });
+  function renderStorm() {
+    var sun = cssVar("--sun"), heaven = cssVar("--heaven");
+    var st = R.storm.natural, sd = R.storm.divine;
+    stormPanels.forEach(function (p) {
+      var every = 4, ns = [], ds = [];
+      for (var t = 0; t < st.steps; t += every) {
+        ns.push([t, st.coop[p.k][t]]);
+        ds.push([t, sd.coop[p.k][t]]);
+      }
+      lineChart(p.host, {
+        height: 110,
+        compact: true,
+        band: { from: st.from, to: st.to, label: "storm" },
+        x: { min: 0, max: st.steps - 1, ticks: [0, st.from, st.steps - 1], fmt: function (v) { return v === 0 ? "step 0" : String(Math.round(v)); } },
+        y: { min: 0, max: 1, ticks: [0, 0.5, 1], fmt: function (v) { return Math.round(v * 100) + "%"; } },
+        series: [
+          { label: "Under the sun", color: sun, points: ns },
+          { label: "Under heaven", color: heaven, points: ds },
+        ],
+        aria: byId[p.id].name + " house: share of moves keeping covenant before, during and after the storm",
+        tipTitle: function (v) { return byId[p.id].name + " · step " + v + (v >= st.from && v < st.to ? " (storm)" : ""); },
+        tipFmt: function (v) { return pct(v); },
+      });
+    });
+  }
+  live(stormGrid, renderStorm);
+
+  // --------------------------------------------------------------- lab
+  var castHost = document.getElementById("lab-cast");
+  ARCH.forEach(function (a) {
+    var b = h("button", { type: "button", class: "chip", "aria-pressed": "true", "data-id": a.id, text: a.name });
+    b.addEventListener("click", function () {
+      var on = b.getAttribute("aria-pressed") === "true";
+      var count = castHost.querySelectorAll('[aria-pressed="true"]').length;
+      if (on && count <= 2) { document.getElementById("lab-status").textContent = "Keep at least two players in the tournament."; return; }
+      b.setAttribute("aria-pressed", String(!on));
+    });
+    castHost.appendChild(b);
+  });
+  var noiseIn = document.getElementById("lab-noise"), heavenIn = document.getElementById("lab-heaven");
+  noiseIn.addEventListener("input", function () { document.getElementById("lab-noise-out").textContent = noiseIn.value + "%"; });
+  heavenIn.addEventListener("input", function () { document.getElementById("lab-heaven-out").textContent = Number(heavenIn.value).toFixed(2); });
+  var labRows = R.chance.rows, labColor = "--sun";
+  function renderLab() { rankingChart(document.getElementById("lab-chart"), labRows, labColor); }
+  live(document.getElementById("lab-chart"), renderLab);
+  document.getElementById("lab-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = document.getElementById("lab-run"), status = document.getElementById("lab-status"), chart = document.getElementById("lab-chart");
+    var ids = Array.prototype.map.call(castHost.querySelectorAll('[aria-pressed="true"]'), function (b) { return b.getAttribute("data-id"); });
+    var world = {
+      noise: Number(noiseIn.value) / 100,
+      divine: Number(heavenIn.value),
+      unity: document.getElementById("lab-unity").checked,
+      reaping: document.getElementById("lab-reaping").checked,
+      restoration: document.getElementById("lab-restoration").checked,
+      renewal: document.getElementById("lab-renewal").checked,
+    };
+    var reps = Number(document.getElementById("lab-runs").value), steps = Number(document.getElementById("lab-steps").value);
+    btn.disabled = true;
+    btn.textContent = "Running…";
+    chart.classList.add("is-busy");
+    status.textContent = "Playing " + reps + " tournaments of " + steps + " steps…";
+    setTimeout(function () {
+      var t0 = performance.now();
+      var res = FT.tournament({ ids: ids, reps: reps, steps: steps, world: world, seed: 2 });
+      labRows = res.rows;
+      labColor = world.divine > 0 ? "--heaven" : "--sun";
+      renderLab();
+      chart.classList.remove("is-busy");
+      btn.disabled = false;
+      btn.textContent = "Run the tournament";
+      status.textContent = "Done in " + Math.round(performance.now() - t0) + " ms · " + ids.length + " archetypes · chance " + noiseIn.value + "% · heaven s = " + world.divine.toFixed(2) + ".";
+    }, 30);
+  });
+})();
+</script>
+</body>
+</html>

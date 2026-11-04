@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    // Faith Theory lab is a static page in public/faith/
-    return [{ source: "/faith", destination: "/faith/index.html" }];
+  async redirects() {
+    // The Faith Theory lab is a static page in public/faith/ (it loads
+    // engine.js and results.js from the same folder).
+    return [{ source: "/faith", destination: "/faith/index.html", permanent: false }];
   },
 };
 
