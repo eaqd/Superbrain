@@ -1,0 +1,781 @@
+/* ------------------------------------------------------------------
+   Superbrain PDF editor
+   ------------------------------------------------------------------ */
+
+.pdf-app {
+  --bg: #f3f4f6;
+  --panel: #ffffff;
+  --panel-2: #f7f8fa;
+  --hover: #eef0f4;
+  --border: #e2e5ea;
+  --border-strong: #cfd4dc;
+  --text: #1c2028;
+  --muted: #687080;
+  --faint: #9aa1ad;
+  --accent: #1d6fe0;
+  --accent-hover: #155cc0;
+  --accent-soft: #e6effc;
+  --accent-text: #ffffff;
+  --danger: #d92d20;
+  --danger-soft: #fdecea;
+  --success: #16803c;
+  --canvas: #e4e7ec;
+  --page-shadow: 0 1px 2px rgba(16, 24, 40, 0.12), 0 4px 14px rgba(16, 24, 40, 0.1);
+  --chrome: #1f2430;
+  --chrome-text: #e9ecf2;
+  --chrome-muted: #a3abba;
+  --chrome-hover: #2d3343;
+  --focus: 0 0 0 3px rgba(29, 111, 224, 0.28);
+  --radius: 8px;
+
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pdf-app.dark {
+  --bg: #16191f;
+  --panel: #1d2128;
+  --panel-2: #22262e;
+  --hover: #2a2f39;
+  --border: #2e333d;
+  --border-strong: #3b414d;
+  --text: #e8ebf0;
+  --muted: #a1a8b5;
+  --faint: #6f7785;
+  --accent: #4b8ff0;
+  --accent-hover: #6aa2f3;
+  --accent-soft: #1f3150;
+  --danger: #f0605a;
+  --danger-soft: #3a1f1f;
+  --success: #3fbf73;
+  --canvas: #101317;
+  --page-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.35);
+  --chrome: #0f1115;
+  --chrome-hover: #232833;
+  --focus: 0 0 0 3px rgba(75, 143, 240, 0.35);
+}
+
+.pdf-app *,
+.pdf-app *::before,
+.pdf-app *::after {
+  box-sizing: border-box;
+}
+
+.pdf-app button {
+  font: inherit;
+  color: inherit;
+}
+
+.pdf-app :focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* ---------- primitives ---------- */
+
+.pdf-panel {
+  background: var(--panel);
+  border-color: var(--border);
+}
+
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.pdf-btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+.pdf-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.pdf-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+.pdf-btn.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+.pdf-btn.danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+.pdf-btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+.pdf-btn.ghost:hover:not(:disabled) {
+  background: var(--hover);
+}
+.pdf-btn.sm {
+  height: 28px;
+  padding: 0 9px;
+  font-size: 12px;
+}
+
+.pdf-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  flex: none;
+  transition: background 0.12s, color 0.12s;
+}
+.pdf-icon-btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+.pdf-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.pdf-icon-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.pdf-icon-btn.sm {
+  width: 26px;
+  height: 26px;
+}
+
+.pdf-tool-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 52px;
+  height: 46px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 10.5px;
+  line-height: 1.1;
+  white-space: nowrap;
+  flex: none;
+}
+.pdf-tool-btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+.pdf-tool-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.pdf-tool-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pdf-input,
+.pdf-select,
+.pdf-textarea {
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+.pdf-textarea {
+  height: auto;
+  min-height: 64px;
+  padding: 7px 9px;
+  resize: vertical;
+}
+.pdf-input:focus,
+.pdf-select:focus,
+.pdf-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus);
+}
+.pdf-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.pdf-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
+}
+.pdf-check input {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+}
+
+.pdf-seg {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pdf-seg button {
+  height: 28px;
+  min-width: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--border-strong);
+  background: var(--panel);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pdf-seg button:last-child {
+  border-right: 0;
+}
+.pdf-seg button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pdf-divider-v {
+  width: 1px;
+  align-self: stretch;
+  margin: 6px 4px;
+  background: var(--border);
+  flex: none;
+}
+
+.pdf-kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  text-align: center;
+}
+
+.pdf-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.pdf-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.pdf-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.pdf-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-top-color: var(--accent);
+  animation: pdf-spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes pdf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pdf-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  flex: none;
+}
+.pdf-swatch.active {
+  box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--accent);
+}
+.pdf-swatch.none {
+  background: linear-gradient(135deg, #fff 45%, #d92d20 45%, #d92d20 55%, #fff 55%);
+}
+
+/* ---------- chrome ---------- */
+
+.pdf-topbar {
+  background: var(--chrome);
+  color: var(--chrome-text);
+}
+.pdf-topbar .pdf-icon-btn {
+  color: var(--chrome-text);
+}
+.pdf-topbar .pdf-icon-btn:hover:not(:disabled) {
+  background: var(--chrome-hover);
+}
+.pdf-topbar .pdf-icon-btn.active {
+  background: var(--chrome-hover);
+  color: #8fb8ff;
+}
+.pdf-topbar .pdf-input {
+  background: #2a303d;
+  border-color: #3a4152;
+  color: var(--chrome-text);
+}
+
+.pdf-rail-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  padding: 8px 2px 7px;
+  border: 0;
+  border-left: 3px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.1;
+  cursor: pointer;
+  text-align: center;
+}
+.pdf-rail-btn:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+.pdf-rail-btn.horizontal {
+  flex: none;
+  width: auto;
+  min-width: 70px;
+  padding: 7px 6px 6px;
+  border-left: 0;
+  border-top: 3px solid transparent;
+}
+.pdf-rail-btn.horizontal.active {
+  border-top-color: var(--accent);
+}
+.pdf-rail-btn.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.pdf-menu {
+  position: absolute;
+  z-index: 60;
+  min-width: 220px;
+  padding: 5px;
+  border-radius: 9px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.18);
+  color: var(--text);
+}
+.pdf-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pdf-menu-item:hover:not(:disabled) {
+  background: var(--hover);
+}
+.pdf-menu-item:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.pdf-menu-item .hint {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: 11px;
+}
+.pdf-menu-sep {
+  height: 1px;
+  margin: 4px 2px;
+  background: var(--border);
+}
+
+/* ---------- viewer ---------- */
+
+.pdf-viewer {
+  background: var(--canvas);
+  position: relative;
+  overflow: auto;
+  outline: none;
+}
+
+.pdf-page-slot {
+  position: relative;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: var(--page-shadow);
+  flex: none;
+}
+.pdf-page-slot.current {
+  box-shadow: var(--page-shadow), 0 0 0 2px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.pdf-plane {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  --scale-round-x: 1px;
+  --scale-round-y: 1px;
+}
+
+.pdf-plane > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pdf-plane .textLayer {
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 2;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.pdf-plane .textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.pdf-plane .textLayer > :not(.markedContent),
+.pdf-plane .textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.pdf-plane .textLayer .markedContent {
+  display: contents;
+}
+.pdf-plane .textLayer ::selection {
+  background: rgba(29, 111, 224, 0.3);
+  color: transparent;
+}
+.pdf-plane .textLayer br::selection {
+  background: transparent;
+}
+.pdf-plane .textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.pdf-plane .textLayer.selecting .endOfContent {
+  top: 0;
+}
+.pdf-plane .textLayer.disabled {
+  pointer-events: none;
+}
+.pdf-plane .textLayer.disabled :is(span, br) {
+  cursor: default;
+}
+
+.pdf-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.pdf-obj {
+  position: absolute;
+}
+.pdf-obj.selectable {
+  cursor: move;
+}
+.pdf-obj.selected {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 1px;
+}
+.pdf-obj.hoverable:hover {
+  outline: 1px dashed color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 1px;
+}
+
+.pdf-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background: #fff;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  z-index: 5;
+}
+
+.pdf-textedit {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  white-space: pre;
+  padding: 0;
+  margin: 0;
+}
+
+.pdf-editable-run {
+  position: absolute;
+  border: 1px solid transparent;
+  cursor: text;
+}
+.pdf-editable-run:hover {
+  border-color: var(--accent);
+  background: rgba(29, 111, 224, 0.06);
+}
+
+.pdf-form-field {
+  position: absolute;
+  background: rgba(29, 111, 224, 0.09);
+  border: 1px solid rgba(29, 111, 224, 0.25);
+  border-radius: 2px;
+  color: #000;
+  font-family: Helvetica, Arial, sans-serif;
+  padding: 0 2px;
+  margin: 0;
+  outline: none;
+}
+.pdf-form-field:hover {
+  border-color: rgba(29, 111, 224, 0.6);
+}
+.pdf-form-field:focus {
+  background: rgba(29, 111, 224, 0.04);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(29, 111, 224, 0.25);
+}
+.pdf-form-field.required {
+  border-color: rgba(217, 45, 32, 0.55);
+}
+.pdf-form-check {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pdf-search-hit {
+  position: absolute;
+  background: rgba(255, 196, 0, 0.42);
+  mix-blend-mode: multiply;
+  border-radius: 1px;
+  pointer-events: none;
+}
+.pdf-search-hit.active {
+  background: rgba(255, 120, 0, 0.6);
+  box-shadow: 0 0 0 1.5px rgba(255, 120, 0, 0.9);
+}
+
+.pdf-link-area {
+  position: absolute;
+  cursor: pointer;
+}
+.pdf-link-area:hover {
+  background: rgba(29, 111, 224, 0.1);
+  outline: 1px solid rgba(29, 111, 224, 0.4);
+}
+
+.pdf-thumb {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.18);
+  overflow: hidden;
+}
+.pdf-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.pdf-thumb-wrap {
+  border-radius: 6px;
+  padding: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.pdf-thumb-wrap:hover {
+  background: var(--hover);
+}
+.pdf-thumb-wrap.current {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.pdf-thumb-wrap.selected {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.pdf-drop-indicator {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.pdf-toast {
+  pointer-events: auto;
+  border-radius: 8px;
+  padding: 9px 14px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.2);
+  background: #1f2430;
+  color: #fff;
+  font-size: 13px;
+  max-width: 440px;
+  animation: pdf-toast-in 0.18s ease-out;
+}
+.pdf-toast.success {
+  background: #136c35;
+}
+.pdf-toast.error {
+  background: #b42318;
+}
+@keyframes pdf-toast-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+.pdf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 14, 22, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  animation: pdf-fade 0.12s ease-out;
+}
+@keyframes pdf-fade {
+  from {
+    opacity: 0;
+  }
+}
+.pdf-modal {
+  width: 100%;
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 24px 60px rgba(10, 14, 22, 0.35);
+  overflow: hidden;
+}
+
+.pdf-dropzone {
+  border: 2px dashed var(--border-strong);
+  border-radius: 14px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.pdf-dropzone.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.pdf-start-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
+}
+.pdf-start-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
+}
+
+.pdf-sig-pad {
+  touch-action: none;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  cursor: crosshair;
+}
+
+.pdf-floating-bar {
+  position: absolute;
+  z-index: 30;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.18);
+}
+
+.pdf-busy {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 14, 22, 0.28);
+}

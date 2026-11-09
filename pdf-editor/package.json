@@ -1,0 +1,42 @@
+{
+  "name": "superbrain-pdf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Superbrain PDF — a full PDF editor that runs entirely in the browser",
+  "scripts": {
+    "postinstall": "node scripts/copy-pdfjs.mjs",
+    "predev": "node scripts/copy-pdfjs.mjs",
+    "dev": "next dev",
+    "prebuild": "node scripts/copy-pdfjs.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:export": "node scripts/tests/run.mjs export",
+    "test:redact": "node scripts/redact-tests/run.mjs",
+    "test:tools": "node scripts/tools-tests/run.mjs"
+  },
+  "dependencies": {
+    "@cantoo/fontkit": "^2.0.12",
+    "@cantoo/pdf-lib": "^2.11.1",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "fflate": "^0.8.3",
+    "lucide-react": "^1.70.0",
+    "next": "14.2.35",
+    "pdfjs-dist": "^6.5.438",
+    "react": "^18",
+    "react-dom": "^18",
+    "tesseract.js": "^7.0.0",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
