@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# runtimes copied from node_modules by scripts/copy-pdfjs.mjs
+/public/pdfjs/
+/public/tesseract/
+
+# test output
+/.test-out/
+/scripts/redact-tests/.out/
+/scripts/redact-tests/.build/
+
+# misc
+.DS_Store
+.vercel
+.env*.local
+npm-debug.log*
